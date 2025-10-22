@@ -1,0 +1,309 @@
+---
+description: Adventure Hive MVP - AI-Powered Adventure Checklist Generator PRD
+globs: ["**/*.dart", "**/*.yaml", "**/*.md"]
+alwaysApply: true
+---
+
+# Product Requirements Document (PRD)
+
+## Adventure Hive - MVP: AI-Powered Adventure Checklist Generator
+
+---
+
+## 1. Product Overview
+
+**Product Name:** Adventure Hive  
+**Version:** MVP 1.0  
+**Target Platform:** Flutter Mobile App  
+
+### Vision Statement
+Create an intelligent adventure planning assistant that generates personalized equipment checklists using AI, helping adventurers prepare efficiently for their outdoor activities.
+
+---
+
+## 2. Problem Statement
+
+Outdoor enthusiasts often forget essential items when planning adventures, leading to:
+- Safety risks from missing critical equipment
+- Reduced enjoyment due to inadequate preparation  
+- Time wasted creating manual packing lists
+- Inexperience with specific adventure types
+
+---
+
+## 3. Solution Overview
+
+An AI-powered mobile app that:
+1. **Collects** adventure details through an intuitive form
+2. **Generates** personalized equipment checklists using Gemini AI
+3. **Allows** users to select/deselect items from AI suggestions
+4. **Saves** selected items for easy reference during packing
+
+---
+
+## 4. Core User Journey
+
+```
+Login → Adventure Form → AI Generation → Item Selection → Final Checklist
+```
+
+### Detailed Flow:
+1. **User Authentication** - Simple login/signup
+2. **Adventure Details Collection** - Multi-step form
+3. **AI Checklist Generation** - Gemini creates suggestions
+4. **Item Selection Interface** - Bottom sheet with selectable items
+5. **Final Checklist View** - Review selected items
+
+---
+
+## 5. Feature Requirements
+
+### 5.1 Adventure Form (Core Data Collection)
+
+**Based on AdventureModel:**
+- **Type**: Hiking, Camping, BikePacking, RoadTrip, Other (custom)
+- **Members**: Number of participants
+- **Difficulty**: Easy, Medium, Hard
+- **Distance**: Kilometers to travel/walk
+- **Challenge**: Specific requirements/obstacles
+- **Weather**: Sunny ☀️, Rainy 🌧️, Snowy ❄️, Mixed/Unpredictable
+
+**UI Requirements:**
+- **Page 1**: Adventure type selection (buttons) + members + difficulty
+- **Page 2**: Distance + challenge + weather conditions
+- **Navigation**: Swipe between pages or next/back buttons
+- **Validation**: All fields required before generation
+
+### 5.2 AI Checklist Generation
+
+**Integration with Gemini AI:**
+- **Input**: Complete AdventureModel data
+- **Prompt Engineering**: Generate contextual equipment lists
+- **Output Format**: Items separated by " - " (e.g., "Backpack - Hiking boots - Tent")
+- **Response Handling**: Parse and display as selectable list
+
+**Sample Prompt:**
+```
+Generate a list of essential items for an adventure.
+Type: Hiking, Members: 4, Difficulty: Hard, Distance: 15km, 
+Challenge: Mountain climbing, Weather: Snowy
+Output only items separated with - Example: Backpacks - Hiking boots - Tent
+```
+
+### 5.3 Item Selection Interface (Bottom Sheet)
+
+**UI Components:**
+- **Bottom Sheet**: Modal presentation over adventure form
+- **Item List**: Scrollable list of AI-generated suggestions
+- **Selection State**: Checkbox/toggle for each item
+- **Visual Feedback**: Selected items highlighted (green background)
+- **Actions**: 
+  - "Select All" / "Deselect All" buttons
+  - "Submit Selection" button (only enabled when items selected)
+
+**Behavior:**
+- **Multi-selection**: Users can select multiple items
+- **Persistent state**: Selections maintained during session
+- **Validation**: Minimum 1 item must be selected to submit
+
+### 5.4 Final Checklist View
+
+**Display Requirements:**
+- **Selected Items**: Show only user-chosen items
+- **Adventure Summary**: Display adventure details at top
+- **Item Status**: Checkbox to mark items as "packed"
+- **Actions**:
+  - "Edit Selection" - return to item selection
+  - "Start New Adventure" - clear form and start over
+  - "Export/Share" - share checklist (future feature)
+
+---
+
+## 6. Technical Architecture
+
+### 6.1 State Management ( Get_it)
+
+
+**Dependency Injection:**
+```dart
+// lib/shared/locator.dart
+setupLocator() {
+  locator.registerLazySingleton<AdventureRepository>(() => AdventureRepositoryImpl());
+}
+```
+
+### 6.2 Data Models
+
+**Core Model:**
+```dart
+class AdventureModel {
+  final String type, members, difficulty, distance, challenge, weather;
+  // + toJson(), fromJson() methods
+}
+
+class ChecklistItem {
+  final String name;
+  final bool isSelected;
+  final bool isPacked;
+}
+```
+
+### 6.3 Repository Pattern
+
+```dart
+abstract class AdventureRepository {
+  Future<String> generateItems(AdventureModel model);
+}
+
+class AdventureRepositoryImpl {
+  // Uses flutter_gemini package
+  // Handles API calls and error management
+}
+```
+
+---
+
+## 7. UI/UX Specifications
+
+### 7.1 Design System (Based on Provided Mockups)
+
+**Color Palette:**
+- **Primary**: Dark theme with mountain background
+- **Accent**: Green for selections (#4CAF50)
+- **Text**: White on dark background
+- **Buttons**: Rounded corners, clear visual hierarchy
+
+**Typography:**
+- **Headers**: Bold, 20px
+- **Body**: Regular, 16px
+- **Labels**: 14px
+
+**Components:**
+- **Selection Buttons**: Full-width, rounded, with icons
+- **Text Fields**: Outlined style with labels
+- **Bottom Sheet**: White background, rounded top corners
+- **Checkboxes**: Custom styled with green accent
+
+### 7.2 Screen Layouts
+
+**Adventure Form Screen:**
+- **Header**: Location + edit icon (Seraidi, Annaba)
+- **Content**: PageView with form fields
+- **Footer**: "Start generating" button
+- **Navigation**: Progress indicator for multi-step form
+
+**Item Selection Bottom Sheet:**
+- **Header**: "Generated Items" title + close button
+- **Content**: Scrollable list of selectable items
+- **Footer**: "Submit Selection" button
+
+**Final Checklist Screen:**
+- **Header**: "Your Adventure Checklist"
+- **Content**: Selected items with pack status
+- **Actions**: Edit, New Adventure, Export buttons
+
+---
+
+## 8. Success Metrics
+
+### 8.1 User Engagement
+- **Form Completion Rate**: >80% of users complete adventure form
+- **Item Selection Rate**: Average 60% of suggested items selected
+- **Session Duration**: >3 minutes average time in app
+
+### 8.2 AI Performance
+- **Generation Success Rate**: >95% successful API calls
+- **Response Time**: <5 seconds for item generation
+- **Item Relevance**: User feedback on suggestion quality
+
+### 8.3 User Satisfaction
+- **App Store Rating**: Target 4.5+ stars
+- **User Retention**: 40% return usage within 7 days
+- **Completion Rate**: 70% of users reach final checklist
+
+---
+
+## 9. Technical Constraints
+
+### 9.1 Dependencies
+- **Flutter SDK**: Latest stable version
+- **Packages**: provider, get_it, flutter_gemini
+- **API**: Gemini AI with valid API key required
+
+### 9.2 Performance Requirements
+- **App Launch**: <3 seconds cold start
+- **Form Response**: Immediate UI feedback
+- **AI Generation**: Loading states during API calls
+- **Memory Usage**: Efficient state management
+
+---
+
+## 10. Future Enhancements (Post-MVP)
+
+### Phase 2 Features:
+- **Offline Mode**: Cache previous checklists
+- **User Profiles**: Save preferences and history
+- **Social Sharing**: Share adventures with friends
+- **Photo Integration**: Add images to checklist items
+- **Location Services**: GPS-based suggestions
+- **Premium Features**: Advanced AI prompts, export options
+
+### Phase 3 Features:
+- **Community**: User-generated checklists
+- **Marketplace**: Equipment purchase integration
+- **Weather Integration**: Real-time weather updates
+- **Trip Planning**: Multi-day adventure support
+
+---
+
+## 11. Implementation Priority
+
+### Sprint 1 (Core MVP):
+1. ✅ Adventure form with validation
+2. ✅ AI integration with Gemini
+3. ✅ Basic item selection interface
+4. ✅ State management setup
+
+### Sprint 2 (UI Polish):
+1. 🔄 Bottom sheet item selection
+2. 🔄 Final checklist view
+3. 🔄 Design system implementation
+4. 🔄 Error handling and loading states
+
+### Sprint 3 (Testing & Launch):
+1. ⏳ User testing and feedback
+2. ⏳ Performance optimization
+3. ⏳ App store preparation
+4. ⏳ Analytics integration
+
+---
+
+## 12. Current Implementation Status
+
+### Architecture Setup ✅
+- **AdventureModel**: Complete with serialization
+- **AdventureRepository**: Interface and implementation ready
+- **Dependency Injection**: Get_it locator configured
+- **State Management**: Provider-based controllers implemented
+
+### Controllers ✅
+- **AdventureController**: Handles AI generation with loading/error states
+- **AdventureFormProvider**: Generic form state management
+- **Service Locator**: Clean dependency injection setup
+
+### Next Steps 🔄
+- **Fix adventure_details_view.dart**: Remove riverpod, use new providers
+- **Create ChecklistProvider**: Handle item selection state
+- **Implement Bottom Sheet**: Item selection interface
+- **Create Final Checklist View**: Display selected items
+- **Add proper navigation**: Between screens and form pages
+
+### Technical Debt to Address
+- **Remove riverpod dependencies**: Update all views to use provider
+- **Fix import paths**: Ensure all imports point to correct files
+- **Add proper error handling**: User-friendly error messages
+- **Implement loading states**: Better UX during AI generation
+
+---
+
+**This PRD defines a focused MVP that delivers core value: AI-powered adventure checklist generation with an intuitive selection interface, following clean architecture principles and modern Flutter development practices.**

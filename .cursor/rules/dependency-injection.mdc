@@ -1,0 +1,106 @@
+// Cursor Rule: Implement Dependency Injection using get_it in Flutter (MVC Pattern)
+
+// 1. Add to pubspec.yaml:
+// dependencies:
+//   get_it: ^7.6.4
+
+// 2. Create service_locator.dart
+import 'package:get_it/get_it.dart';
+import 'services/auth_service.dart';
+import 'controllers/auth_controller.dart';
+
+final GetIt locator = GetIt.instance;
+
+void setupLocator() {
+  // Register services
+  locator.registerLazySingleton<AuthService>(() => AuthService());
+
+  // Register controllers
+  locator.registerFactory<AuthController>(() => AuthController());
+}
+
+// 3. Example service - services/auth_service.dart
+class AuthService {
+  Future<bool> login(String email, String password) async {
+    // Implement login logic
+    return email == "admin" && password == "admin";
+  }
+}
+
+// 4. Example controller - controllers/auth_controller.dart
+import '../services/auth_service.dart';
+import '../service_locator.dart';
+
+class AuthController {
+  final AuthService _authService = locator<AuthService>();
+
+  Future<bool> login(String email, String password) async {
+    return await _authService.login(email, password);
+  }
+}
+
+// 5. main.dart
+import 'package:flutter/material.dart';
+import 'service_locator.dart';
+import 'views/login_screen.dart';
+
+void main() {
+  setupLocator();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoginScreen(),
+    );
+  }
+}
+
+// 6. Example view - views/login_screen.dart
+import 'package:flutter/material.dart';
+import '../service_locator.dart';
+import '../controllers/auth_controller.dart';
+
+class LoginScreen extends StatelessWidget {
+  final AuthController _authController = locator<AuthController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            bool success = await _authController.login("admin", "admin");
+            if (success) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Login Successful")),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Login Failed")),
+              );
+            }
+          },
+          child: Text("Login"),
+        ),
+      ),
+    );
+  }
+}
+
+// Notes:
+// - Use registerLazySingleton<T>() when you want a single shared instance (like a service or database).
+// - Use registerFactory<T>() when you want a new instance each time (like a controller).
+// - Always initialize GetIt in main.dart before runApp().
+// - Keep your architecture clean: separate your views (UI), controllers (logic), and services (data/API).
+// - You can test services or controllers by mocking locator<T>() during tests.
+// - Using locator<T>() avoids passing dependencies manually through constructors.
+// - Don't forget to import service_locator.dart wherever you need to use locator<T>().
+// - Make sure setupLocator() is called before anything that relies on it.
+// - Stick to naming folders: /services, /controllers, /views for easy navigation.
+// - Do not register services inside widgets. Keep all registration logic in one place.
+// - You can add navigation, analytics, or storage services in the same locator setup.
+// - This pattern helps when scaling your app: each module is modular and independently testable.
+// - In real apps, avoid hardcoded values (like email/password), and connect to real APIs.
