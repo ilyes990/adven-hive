@@ -1,16 +1,28 @@
-# adven_hive
+# 🏔️ Adventure Hive
 
-A new Flutter project.
+An AI-powered adventure checklist generator built with Flutter. Plan your outdoor adventures with smart, personalized equipment recommendations.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- 🤖 **AI-Powered Recommendations** - Gemini AI generates personalized equipment lists
+- 📋 **Smart Forms** - Multi-page form with validation and real-time feedback
+- ✅ **Interactive Checklists** - Select, manage, and track your adventure gear
+- 💾 **Local Storage** - Save and manage multiple adventure plans
+- 🎨 **Modern UI** - Clean, intuitive interface with smooth animations
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Flutter** - Cross-platform mobile framework
+- **GetX** - State management & dependency injection
+- **Freezed** - Immutable models with code generation
+- **Gemini AI** - Smart equipment recommendations
+- **Shared Preferences** - Local data persistence
+- **Device Preview** - Multi-device testing
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🚀 Quick Start
+
+### Prerequisites
+- Flutter SDK (^3.6.0)
+- Dart SDK
+- Gemini API Key
+
