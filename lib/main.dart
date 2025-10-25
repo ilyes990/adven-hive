@@ -6,6 +6,8 @@ import 'core/routes.dart';
 import 'UI/views/adventure_details_view.dart';
 import 'UI/views/checklist_view.dart';
 import 'UI/controller/adventure_storage_controller.dart';
+import 'UI/controller/adventure_controller.dart';
+import 'UI/controller/adventure_form_controller.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -25,6 +27,8 @@ void main() {
   Get.put(AdventureDetailsController());
   Get.put(ChecklistController());
   Get.put(AdventureStorageController());
+  Get.lazyPut(() => AdventureController());
+  Get.lazyPut(() => AdventureFormController());
 
   runApp(
     DevicePreview(
