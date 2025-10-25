@@ -1,42 +1,37 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/adventure_model.dart';
+import '../../core/model/adventure_model.dart';
 import '../../core/adventure_repo_implmnt.dart';
-import '../../shared/locator.dart';
 
-class AdventureController extends ChangeNotifier {
+class AdventureController extends GetxController {
   final AdventureRepository _repository = Get.find<AdventureRepository>();
 
-  String _generatedItems = '';
-  bool _isLoading = false;
-  String? _error;
+  final _generatedItems = ''.obs;
+  final _isLoading = false.obs;
+  final Rx<String?> _error = Rx<String?>(null);
 
   // Getters
-  String get generatedItems => _generatedItems;
-  bool get isLoading => _isLoading;
-  String? get error => _error;
+  String get generatedItems => _generatedItems.value;
+  bool get isLoading => _isLoading.value;
+  String? get error => _error.value;
 
   // Generate adventure items
   Future<void> generateItems(AdventureModel adventureModel) async {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+    _isLoading.value = true;
+    _error.value = null;
 
     try {
       final items = await _repository.generateItems(adventureModel);
-      _generatedItems = items;
+      _generatedItems.value = items;
     } catch (e) {
-      _error = e.toString();
+      _error.value = e.toString();
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _isLoading.value = false;
     }
   }
 
   // Clear generated items
   void clearItems() {
-    _generatedItems = '';
-    _error = null;
-    notifyListeners();
+    _generatedItems.value = '';
+    _error.value = null;
   }
 }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../main.dart';
-import '../../core/adventure_model.dart';
+import '../../core/model/adventure_model.dart';
 import '../../core/adventure_repo_implmnt.dart';
-import '../../shared/locator.dart';
 import '../../core/theme_colors.dart';
 import 'item_selection_bottom_sheet.dart';
-import 'checklist_view.dart';
 import 'adventure_summary_view.dart';
 
 class AdventureDetailsController extends GetxController {

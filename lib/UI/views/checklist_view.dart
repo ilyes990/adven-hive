@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/theme_colors.dart';
-import '../../core/routes.dart';
-import '../../core/adventure_model.dart';
+import '../../core/model/adventure_model.dart';
 import '../controller/adventure_storage_controller.dart';
 
 class ChecklistController extends GetxController {

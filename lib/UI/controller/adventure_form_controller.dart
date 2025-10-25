@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import '../../core/adventure_model.dart';
+import 'package:get/get.dart';
+import '../../core/model/adventure_model.dart';
 
-class AdventureFormProvider extends ChangeNotifier {
-  final Map<String, String?> _formData = {
+class AdventureFormController extends GetxController {
+  // Reactive form data
+  final _formData = <String, String?>{
     'type': null,
     'members': null,
     'difficulty': null,
     'distance': null,
     'challenge': null,
     'weather': null,
-  };
+  }.obs;
 
   // Generic getter
   String? getValue(String key) => _formData[key];
@@ -17,7 +18,7 @@ class AdventureFormProvider extends ChangeNotifier {
   // Generic setter
   void setValue(String key, String? value) {
     _formData[key] = value;
-    notifyListeners();
+    _formData.refresh();
   }
 
   // Convenience getters
@@ -49,6 +50,6 @@ class AdventureFormProvider extends ChangeNotifier {
   // Reset form
   void reset() {
     _formData.updateAll((key, value) => null);
-    notifyListeners();
+    _formData.refresh();
   }
 }
