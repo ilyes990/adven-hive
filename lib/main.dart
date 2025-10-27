@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
-import 'shared/locator.dart';
-import 'core/routes.dart';
-import 'UI/views/adventure_details_view.dart';
-import 'UI/views/checklist_view.dart';
-import 'UI/controller/adventure_storage_controller.dart';
-import 'UI/controller/adventure_controller.dart';
-import 'UI/controller/adventure_form_controller.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:get/get.dart';
+
+import 'UI/controller/adventure_controller.dart';
+import 'UI/controller/adventure_form_controller.dart';
+import 'UI/controller/adventure_storage_controller.dart';
+import 'UI/views/adventure_details_view.dart';
+import 'UI/views/checklist_view.dart';
+import 'core/routes.dart';
+import 'shared/locator.dart';
 
 const GEM_API_KEY = 'AIzaSyAApC6ekhrXSZmB_dvmjmrsxB2IzyQXDJ8';
 
@@ -213,7 +214,7 @@ class MyApp extends StatelessWidget {
       ),
 
       // Card Theme
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cardSurface,
         elevation: 2,
         shadowColor: Colors.black.withOpacity(0.1),
