@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import '../../core/adventure_model.dart';
+
+import '../../core/model/adventure_model.dart';
 
 class AdventureStorageController extends GetxController {
   // Observable list of saved adventures

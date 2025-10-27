@@ -1,5 +1,6 @@
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'adventure_model.dart';
+
+import 'model/adventure_model.dart';
 
 // Abstract repository interface
 abstract class AdventureRepository {

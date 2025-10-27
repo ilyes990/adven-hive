@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/adventure_model.dart';
+
+import '../../core/model/adventure_model.dart';
 import '../../core/theme_colors.dart';
 import '../controller/adventure_storage_controller.dart';
 import 'checklist_view.dart';

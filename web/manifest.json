@@ -1,11 +1,11 @@
 {
-    "name": "adven_hive",
-    "short_name": "adven_hive",
-    "start_url": ".",
+    "name": "Adventure Hive",
+    "short_name": "AdventureHive",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#2E6939",
     "theme_color": "#2E6939",
-    "description": "A new Flutter project.",
+    "description": "AI-Powered Adventure Checklist Generator",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
