@@ -2,13 +2,35 @@
   # Directory to publish (the build output folder)
   publish = "build/web"
   
-  # Build command - this will be executed by Netlify
-  command = "flutter build web --release --base-href=/"
+  # Build command - Install Flutter first, then build
+  command = """
+    # Set Flutter path
+    export FLUTTER_ROOT="$HOME/flutter"
+    export PATH="$FLUTTER_ROOT/bin:$PATH"
+    
+    # Install Flutter if not cached
+    if [ ! -d "$FLUTTER_ROOT" ]; then
+      echo "Installing Flutter..."
+      git clone https://github.com/flutter/flutter.git -b stable --depth 1 "$FLUTTER_ROOT"
+    else
+      echo "Flutter found in cache"
+    fi
+    
+    # Verify Flutter installation
+    flutter doctor -v
+    flutter config --no-analytics
+    
+    # Get dependencies and build
+    flutter pub get
+    flutter build web --release --base-href=/
+  """
 
 [build.environment]
   # Specify Flutter channel and version
   FLUTTER_CHANNEL = "stable"
-  
+  # Cache Flutter installation between builds
+  NODE_VERSION = "18"
+
 # Redirect rules for Flutter web routing
 [[redirects]]
   from = "/*"

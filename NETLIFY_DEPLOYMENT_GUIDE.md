@@ -209,6 +209,20 @@ After deployment, test these features:
 
 ### Common Issues & Solutions
 
+#### Issue: "Flutter not found" or "Command not found: flutter"
+**Solution**: The updated `netlify.toml` now installs Flutter automatically. If you still see this error:
+1. Commit and push the updated `netlify.toml` to your repo
+2. In Netlify, trigger a new deploy
+3. Check the deploy logs - you should see "Installing Flutter..." or "Flutter found in cache"
+
+**First build will take 5-8 minutes** as Flutter is downloaded. Subsequent builds will be faster (2-3 minutes) due to caching.
+
+#### Issue: Build timeout on Netlify
+**Solution**: Free Netlify accounts have a 15-minute build timeout. To fix:
+1. The updated `netlify.toml` includes caching which speeds up builds
+2. If still timing out, upgrade to Netlify Pro, or use manual deployment
+3. Or deploy to other Flutter-friendly hosts like Firebase Hosting or Vercel
+
 #### Issue: White screen after deployment
 **Solution**: Check browser console for errors. Usually caused by:
 - Incorrect base href
@@ -242,6 +256,12 @@ flutter build web --release
 1. Check API key is correct in `lib/main.dart`
 2. Verify API key has proper permissions in Google Cloud Console
 3. Check browser console for specific error messages
+
+#### Issue: "Permission denied" or Git errors during build
+**Solution**: 
+1. Make sure your repository is public, or Netlify has access to private repos
+2. Check that all necessary files are committed
+3. Try "Clear cache and retry deploy" in Netlify UI
 
 ---
 
